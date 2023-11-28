@@ -17,6 +17,7 @@ import { DurationPipe } from './pipes/duration.pipe';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 // import { EmailValidatorDirective } from '@shared/directives/email.directive';
 import { CourseListComponent } from './components/course-list/course-list.component';
+import { RouterModule } from '@angular/router';
 
 const components = [
   HeaderComponent,
@@ -31,12 +32,18 @@ const components = [
   DurationPipe,
   CustomDatePipe,
   CourseListComponent,
-  //   EmailValidatorDirective
+  // EmailValidatorDirective
 ];
 
 @NgModule({
   declarations: [components],
-  imports: [CommonModule, FontAwesomeModule, FormsModule, ReactiveFormsModule],
-  exports: [components],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
+  exports: [components, RouterModule],
 })
 export class SharedModule {}
