@@ -1,0 +1,11 @@
+.app-search {
+  display: flex;
+  width: 80vw;
+  align-items: baseline;
+  margin: 20px auto;
+
+  & input {
+    margin-right: 24px;
+    padding: 13px 20px;
+  }
+}

@@ -1,0 +1,15 @@
+<app-search></app-search>
+
+<app-course-list
+  *ngIf="courses.length > 0"
+  [courses]="courses"
+  [editable]="true"
+></app-course-list>
+
+<app-info
+  *ngIf="courses.length === 0"
+  title="Your List Is Empty"
+  text="Please use 'Add New Course' button to add your first course."
+>
+  <app-button text="Add New Course"></app-button>
+</app-info>
