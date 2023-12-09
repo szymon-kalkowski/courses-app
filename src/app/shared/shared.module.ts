@@ -15,7 +15,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DurationPipe } from './pipes/duration.pipe';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
-// import { EmailValidatorDirective } from '@shared/directives/email.directive';
+import { EmailValidatorDirective } from './directives/email.directive';
 import { CourseListComponent } from './components/course-list/course-list.component';
 import { RouterModule } from '@angular/router';
 
@@ -32,7 +32,7 @@ const components = [
   DurationPipe,
   CustomDatePipe,
   CourseListComponent,
-  // EmailValidatorDirective
+  EmailValidatorDirective,
 ];
 
 @NgModule({

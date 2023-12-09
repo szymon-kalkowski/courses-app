@@ -1,6 +1,10 @@
 <h2 class="text-align-center my-3">Login</h2>
 <div class="app-plate w-75 mx-auto">
-  <form #loginForm="ngForm" class="form-group">
+  <form
+    #loginForm="ngForm"
+    (ngSubmit)="onSubmit(); loginForm.reset()"
+    class="form-group"
+  >
     <div class="login-form">
       <div>
         <div class="form__control">
@@ -11,9 +15,28 @@
             id="email"
             placeholder="Input text"
             class="form-control"
+            name="email"
+            [(ngModel)]="email"
+            required
+            emailValidator
           />
-          <span id="emailErrorMessage" class="text-danger"
+          <span
+            id="emailErrorMessage"
+            class="text-danger"
+            *ngIf="
+              loginForm.controls['email']?.errors?.['required'] &&
+              loginForm.controls['email']?.dirty
+            "
             >Email is required.</span
+          >
+          <span
+            id="emailErrorMessage"
+            class="text-danger"
+            *ngIf="
+              loginForm.controls['email']?.errors?.['emailValidator'] &&
+              loginForm.controls['email']?.dirty
+            "
+            >Email is invalid.</span
           >
         </div>
         <div class="form__control">
@@ -24,15 +47,26 @@
             id="password"
             placeholder="Input text"
             class="form-control"
+            name="password"
+            [(ngModel)]="password"
+            required
           />
-          <span id="passwordErrorMessage" class="text-danger"
+          <span
+            *ngIf="loginForm.controls['password']?.errors?.['required'] &&
+          loginForm.controls['password']?.dirty"
+            id="passwordErrorMessage"
+            class="text-danger"
             >Password is required.</span
           >
         </div>
       </div>
       <div>
         <div class="form__action d-flex justify-content-center">
-          <app-button [text]="'LOGIN'"></app-button>
+          <app-button
+            type="submit"
+            [disabled]="!loginForm.form.valid"
+            [text]="'LOGIN'"
+          ></app-button>
         </div>
         <div class="form__text">
           If you don't have an account you may
