@@ -16,6 +16,7 @@ export class ButtonComponent {
   @Input() text: string = '';
   @Input() icon: IconDefinition | null = null;
   @Input() disabled: boolean = false;
+  @Input() type: string = 'submit';
   @Output() buttonClick: EventEmitter<void> = new EventEmitter();
 
   onClick(): void {
