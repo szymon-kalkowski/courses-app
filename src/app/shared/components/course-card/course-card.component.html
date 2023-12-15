@@ -12,14 +12,14 @@
       <div>
         <b>Duration: </b
         ><span class="course-card__duration"
-          >{{ course.duration | date : "HH:MM" }}
+          >{{ course.duration | duration }}
           {{ course.duration >= 120 ? "hours" : "hour" }}</span
         >
       </div>
       <div>
         <b>Created: </b
         ><span class="course-card__date">{{
-          course.creationDate | date : "DD.MM.YYYY"
+          course.creationDate | customDate
         }}</span>
       </div>
     </div>

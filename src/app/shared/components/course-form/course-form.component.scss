@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/styles';
+@import "src/app/shared/styles/styles";
 
 .course {
- min-width: 60vw;
+  min-width: 60vw;
 
   &__flex {
     display: flex;
@@ -34,4 +34,8 @@
     margin-left: 4px;
     cursor: pointer;
   }
+}
+
+.ng-invalid.ng-dirty:not(form) {
+  border: 2px solid red !important;
 }

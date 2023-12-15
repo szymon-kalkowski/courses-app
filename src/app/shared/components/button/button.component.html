@@ -1,4 +1,9 @@
-<div class="app-button" (click)="onClick()">
+<button
+  [disabled]="disabled"
+  class="app-button"
+  [type]="type"
+  (click)="onClick()"
+>
   {{ text }}
   <fa-icon *ngIf="icon" [icon]="icon" />
-</div>
+</button>

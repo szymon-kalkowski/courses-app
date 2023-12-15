@@ -1,6 +1,10 @@
 <h2 class="text-align-center my-3">Registration</h2>
 <div class="app-plate w-75 mx-auto">
-  <div class="registration-form">
+  <form
+    [formGroup]="registrationForm"
+    (ngSubmit)="onSubmit()"
+    class="registration-form"
+  >
     <div>
       <div class="form__control">
         <label for="name">Name</label>
@@ -10,8 +14,17 @@
           type="text"
           id="name"
           placeholder="Input text"
+          name="name"
+          formControlName="name"
         />
-        <span id="nameErrorMessage" class="text-danger">Name is required.</span>
+        <span
+          id="nameErrorMessage"
+          *ngIf="
+        registrationForm.controls['name']?.errors?.['minlength'] &&
+        registrationForm.controls['name']?.dirty"
+          class="text-danger"
+          >Minimum name length: 6</span
+        >
       </div>
       <div class="form__control">
         <!--Use the name `email` for the form control.-->
@@ -21,9 +34,26 @@
           type="text"
           id="email"
           placeholder="Input text"
+          name="email"
+          formControlName="email"
         />
-        <span id="emailErrorMessage" class="text-danger"
+        <span
+          id="emailErrorMessage"
+          *ngIf="
+        registrationForm.controls['email']?.errors?.['required'] &&
+        registrationForm.controls['email']?.dirty
+      "
+          class="text-danger"
           >Email is required.</span
+        >
+        <span
+          id="emailErrorMessage"
+          *ngIf="
+        registrationForm.controls['email']?.errors?.['emailValidator'] &&
+        registrationForm.controls['email']?.dirty
+      "
+          class="text-danger"
+          >Email is invalid.</span
         >
       </div>
       <div class="form__control">
@@ -34,14 +64,24 @@
           type="password"
           id="password"
           placeholder="Input text"
+          name="password"
+          formControlName="password"
         />
-        <span id="passwordErrorMessage" class="text-danger"
+        <span
+          id="passwordErrorMessage"
+          *ngIf="
+        registrationForm.controls['password']?.errors?.['required'] &&
+        registrationForm.controls['password']?.dirty"
+          class="text-danger"
           >Password is required.</span
         >
       </div>
     </div>
     <div class="form__action d-flex justify-content-center">
-      <app-button text="REGISTER"></app-button>
+      <app-button
+        [disabled]="registrationForm.invalid"
+        text="REGISTER"
+      ></app-button>
     </div>
-  </div>
+  </form>
 </div>

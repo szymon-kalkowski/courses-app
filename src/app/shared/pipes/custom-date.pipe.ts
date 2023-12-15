@@ -1,8 +1,10 @@
 import { Pipe } from '@angular/core';
 
 @Pipe({
-    name: 'customDate'
+  name: 'customDate',
 })
 export class CustomDatePipe {
-    // Add your code here
+  transform(value: string): string {
+    return value.replaceAll('/', '.');
+  }
 }

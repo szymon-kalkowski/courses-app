@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoursesComponent } from './features/courses/courses.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegistrationComponent } from './features/registration/registration.component';
+import { CourseFormComponent } from './shared/components';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
     component: LoginComponent,
   },
   { path: 'registration', component: RegistrationComponent },
+  {
+    path: 'course-form',
+    component: CourseFormComponent,
+  },
 ];
 
 @NgModule({
