@@ -7,7 +7,7 @@
     <div class="course-card__info-text">
       <div>
         <b>Authors: </b>
-        <div *ngFor="let author of course.authors">{{ author.name }}</div>
+        <div *ngFor="let author of course.authors">{{ author }}</div>
       </div>
       <div>
         <b>Duration: </b
@@ -24,7 +24,10 @@
       </div>
     </div>
     <div class="course-card__info-actions">
-      <app-button [text]="'SHOW COURSE'"></app-button>
+      <app-button
+        [text]="'SHOW COURSE'"
+        [routerLink]="'/courses/' + course.id"
+      ></app-button>
       <ng-container *ngIf="editable">
         <app-button [icon]="deleteIcon"></app-button>
         <app-button [icon]="editIcon"></app-button>

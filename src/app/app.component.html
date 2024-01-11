@@ -1,4 +1,13 @@
 <app-header>
-  <app-button text="Login" (buttonClick)="onLoginButtonClick()"></app-button>
+  <app-button
+    *ngIf="!isLogged$"
+    text="Login"
+    (buttonClick)="onLoginButtonClick()"
+  ></app-button>
+  <app-button
+    *ngIf="isLogged$"
+    text="Logout"
+    (buttonClick)="onLogoutButtonClick()"
+  ></app-button>
 </app-header>
 <router-outlet></router-outlet>

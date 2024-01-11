@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -8,11 +10,22 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginFormComponent {
   @ViewChild('loginForm') public loginForm!: NgForm;
-  //Use the names `email` and `password` for form controls.
+
   public email: string = '';
   public password: string = '';
 
+  constructor(private authService: AuthService, private router: Router) {}
+
   onSubmit(): void {
-    console.log(this.loginForm.value);
+    this.authService
+      .login({ email: this.email, password: this.password })
+      .subscribe(
+        () => {
+          this.router.navigate(['/courses']);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 }
