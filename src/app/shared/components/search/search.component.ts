@@ -6,8 +6,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent {
-  // Use the name `placeholder` for the @Input.
-  // Use the name `search` for the @Output.
   searchValue: string = '';
   @Input() placeholder: string = '';
   @Output() search: EventEmitter<string> = new EventEmitter();

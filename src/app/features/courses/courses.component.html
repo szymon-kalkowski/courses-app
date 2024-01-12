@@ -1,9 +1,25 @@
-<app-search placeholder="Input text"></app-search>
+<app-search placeholder="Input text" (search)="onSearch($event)"></app-search>
+
+<div *ngIf="searchedBy" class="d-flex search-badge mx-auto rounded">
+  <div class="d-flex rounded">
+    <div class="mr-2">Search by:</div>
+    <div class="mx-2">"{{ searchedBy }}"</div>
+    <button (click)="clearSearch()" class="pe-auto btn btn-primary">x</button>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <app-button
+    *ngIf="editable"
+    [routerLink]="'/courses/add'"
+    [text]="'Add course'"
+  ></app-button>
+</div>
 
 <app-course-list
   *ngIf="courses.length > 0"
   [courses]="courses"
-  [editable]="true"
+  [editable]="editable"
 ></app-course-list>
 
 <app-info

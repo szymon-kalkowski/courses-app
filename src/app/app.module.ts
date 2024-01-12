@@ -4,11 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CourseModule } from './features/course/course.module';
 import { SharedModule } from './shared/shared.module';
-import { CoursesModule } from './features/courses/courses.module';
-import { LoginModule } from './features/login/login.module';
-import { RegistrationModule } from './features/registration/registration.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthModule } from './auth/auth.module';
+import { AuthorizedGuard } from './auth/guards/authorized.guard';
+import { NotAuthorizedGuard } from './auth/guards/not-authorized.guard';
+import { TokenInterceptor } from './auth/interceptors/token.interceptor';
+import { AdminGuard } from './user/guards/admin.guard';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,13 +19,21 @@ import { RegistrationModule } from './features/registration/registration.module'
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    CourseModule,
-    CoursesModule,
     SharedModule,
-    LoginModule,
-    RegistrationModule,
+    HttpClientModule,
+    AuthModule,
+    UserModule,
   ],
-  providers: [],
+  providers: [
+    AuthorizedGuard,
+    NotAuthorizedGuard,
+    AdminGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

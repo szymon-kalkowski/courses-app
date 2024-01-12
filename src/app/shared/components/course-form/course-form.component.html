@@ -1,5 +1,5 @@
 <!-- Replace ::text:: with your code -->
-<h2 class="text-align-center my-3">Create / Edit Course</h2>
+<h2 class="text-align-center my-3">{{ course ? "Edit" : "Create" }} Course</h2>
 <form class="form-group" [formGroup]="courseForm" (ngSubmit)="onSubmit()">
   <div class="app-plate w-75 mx-auto">
     <div class="course">
@@ -128,7 +128,7 @@
           <div>
             <app-button
               [disabled]="courseForm.invalid"
-              text="CREATE COURSE"
+              [text]="course ? 'EDIT' : 'CREATE'"
             ></app-button>
           </div>
         </div>
