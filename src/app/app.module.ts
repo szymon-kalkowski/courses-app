@@ -12,6 +12,9 @@ import { NotAuthorizedGuard } from './auth/guards/not-authorized.guard';
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { AdminGuard } from './user/guards/admin.guard';
 import { UserModule } from './user/user.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { effects, reducers } from './store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +26,8 @@ import { UserModule } from './user/user.module';
     HttpClientModule,
     AuthModule,
     UserModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
   ],
   providers: [
     AuthorizedGuard,

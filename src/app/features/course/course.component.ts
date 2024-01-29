@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReadCourse } from 'src/app/models/course/ReadCourse.model';
-import { CoursesService } from 'src/app/services/courses.service';
+import { CoursesFacade } from 'src/app/store/courses/courses.facade';
 
 @Component({
   selector: 'app-course',
@@ -10,17 +9,15 @@ import { CoursesService } from 'src/app/services/courses.service';
 })
 export class CourseComponent {
   id: string = '';
-  course: ReadCourse = {} as ReadCourse;
+  course$ = this.coursesFacade.course$;
 
   constructor(
     private route: ActivatedRoute,
-    private coursesService: CoursesService
+    private coursesFacade: CoursesFacade
   ) {
     this.route.params.subscribe((params) => {
       this.id = params['id'];
-      this.coursesService.getCourse(this.id).subscribe((course) => {
-        this.course = course.result as ReadCourse;
-      });
+      this.coursesFacade.getSingleCourse(this.id);
     });
   }
 }

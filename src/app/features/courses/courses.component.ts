@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { CoursesService } from 'src/app/services/courses.service';
-import { ReadCourse } from 'src/app/models/course/ReadCourse.model';
 import { UserService } from 'src/app/user/services/user.service';
+import { CoursesFacade } from 'src/app/store/courses/courses.facade';
 
 @Component({
   selector: 'app-courses',
@@ -9,36 +8,28 @@ import { UserService } from 'src/app/user/services/user.service';
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent {
-  courses: ReadCourse[] = [];
+  allCourses$ = this.coursesFacade.allCourses$;
   searchedBy: string = '';
 
   public editable: boolean = false;
 
   constructor(
-    private coursesService: CoursesService,
+    private coursesFacade: CoursesFacade,
     private userService: UserService
   ) {
-    this.coursesService.getAll().subscribe((response) => {
-      this.courses = response.result as ReadCourse[];
-    });
+    this.coursesFacade.getAllCourses();
     this.userService.getUser().subscribe((response) => {
       this.editable = response.result.role === 'admin';
     });
   }
 
   onSearch(search: string): void {
-    this.coursesService
-      .filterCourses({ title: [search] })
-      .subscribe((response) => {
-        this.courses = response.result as ReadCourse[];
-        this.searchedBy = search;
-      });
+    this.coursesFacade.getFilteredCourses(search);
+    this.searchedBy = search;
   }
 
   clearSearch(): void {
-    this.coursesService.getAll().subscribe((response) => {
-      this.courses = response.result as ReadCourse[];
-      this.searchedBy = '';
-    });
+    this.coursesFacade.getAllCourses();
+    this.searchedBy = '';
   }
 }
