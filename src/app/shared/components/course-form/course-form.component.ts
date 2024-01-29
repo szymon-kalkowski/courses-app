@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReadAuthor } from 'src/app/models/author/ReadAuthor.model';
-import { ReadCourse } from 'src/app/models/course/ReadCourse.model';
 import { CoursesService } from 'src/app/services/courses.service';
+import { CoursesFacade } from 'src/app/store/courses/courses.facade';
 
 @Component({
   selector: 'app-course-form',
@@ -14,40 +14,46 @@ import { CoursesService } from 'src/app/services/courses.service';
 })
 export class CourseFormComponent implements OnInit {
   id: string | null = null;
-  course: ReadCourse | null = null;
+  course$ = this.coursesFacade.course$;
   constructor(
     public fb: FormBuilder,
     public library: FaIconLibrary,
     private coursesService: CoursesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private coursesFacade: CoursesFacade
   ) {
     library.addIconPacks(fas);
     this.id = route.snapshot.paramMap.get('id') || null;
     if (this.id) {
-      this.coursesService.getCourse(this.id).subscribe((response) => {
-        this.course = response.result as ReadCourse;
-        this.initForm();
-      });
+      this.coursesFacade.getSingleCourse(this.id);
+      this.initForm();
+    } else {
     }
   }
   courseForm!: FormGroup;
-  // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
 
   ngOnInit(): void {
     this.initForm();
   }
 
   initForm(): void {
-    this.courseForm = this.fb.group({
-      title: [this.course?.title || '', [Validators.required]],
-      description: [this.course?.description || '', [Validators.required]],
-      author: ['', [Validators.pattern(/^[a-zA-Z0-9 ]*$/)]],
-      authors: this.fb.array(this.course?.authors || [], [Validators.required]),
-      duration: [
-        this.course?.duration || 0,
-        [Validators.required, Validators.min(0)],
-      ],
+    this.course$.subscribe((course) => {
+      this.courseForm = this.fb.group({
+        title: [this.id ? course?.title : '', [Validators.required]],
+        description: [
+          this.id ? course?.description : '',
+          [Validators.required],
+        ],
+        author: ['', [Validators.pattern(/^[a-zA-Z0-9 ]*$/)]],
+        authors: this.fb.array(this.id ? course?.authors! : [], [
+          Validators.required,
+        ]),
+        duration: [
+          this.id ? course?.duration : 0,
+          [Validators.required, Validators.min(0)],
+        ],
+      });
     });
   }
 
@@ -70,24 +76,12 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.course) {
-      this.coursesService.editCourse(this.id!, this.courseForm.value).subscribe(
-        (_response) => {
-          this.router.navigate(['/courses']);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    if (this.id) {
+      this.coursesFacade.editCourse(this.id, this.courseForm.value);
+      this.router.navigate(['/courses']);
     } else {
-      this.coursesService.createCourse(this.courseForm.value).subscribe(
-        (_response) => {
-          this.cancel();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      this.coursesFacade.createCourse(this.courseForm.value);
+      this.cancel();
     }
   }
 

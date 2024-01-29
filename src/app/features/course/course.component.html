@@ -1,1 +1,4 @@
-<app-course-card [course]="course" [details]="true"></app-course-card>
+<app-course-card
+  [course]="(course$ | async)!"
+  [details]="true"
+></app-course-card>
